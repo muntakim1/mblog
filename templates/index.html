@@ -1,0 +1,184 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+<link rel="stylesheet" href="{% static 'style.css' %}">
+<title>{% block title %}Muntakim's BLOG{% endblock %}</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark mynav">
+        <a class="navbar-brand " href="{% url 'index' %}">Muntakim's Blog</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'about' %}">About Me</a>
+            </li>
+            <li class="nav-item dropdown active">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Languages
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown" >
+                  {% for i in category %}
+                <a class="dropdown-item" href="{% url 'languages' pk=i.id %}">{{ i.name }}</a>
+                <div class="dropdown-divider"></div>
+                  {% endfor %}
+              </div>
+            </li>
+            <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Algorithms
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% for foo in Algocategory %}
+                    <a class="dropdown-item" href="{% url 'alogorithms' pk=foo.id%}">{{ foo.name }}</a>
+                  <div class="dropdown-divider"></div>
+                    {% endfor %}
+                    
+
+                </div>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'ContactUs' %}">Contact</a>
+              </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-dark my-2 my-sm-0" style="color:white" type="submit">Search</button>
+          </form>
+        </div>
+    </nav>
+{% block body %}
+    <div class="row">
+
+        <section id="primary" class="content-area col-md-9">
+
+           <main id="main" class="site-main" role="main">
+               {% for c in Post%}
+               <article>
+                <header class="entry-header text-center">
+                    <h3 class="widget-title">{{ c.title }}</h3>
+                    {% if user.is_authenticated %}
+                    <p> {{ c.dateTime }}| posted by {{ user.get_username }}</p>
+                        {% else %}
+                        <p> {{ c.dateTime }}| posted by Muntakimur Rahaman</p>
+                    {% endif %}
+
+                    <hr>
+                </header>
+
+                <div class="post-image container">
+                    <img class="center" src="{{ c.image.url }}" alt="image">
+                </div>
+                <div class="container">
+                        <p>{{ c.shortDescription }}
+                            <a href="{% url  'post_detail' pk=c.id%}"><span class="continue-reading">Continue Reading...</span>
+                                    </a></p>
+                </div>
+               </article>
+                {% endfor %}
+           </main>
+        </section>
+
+
+        <aside id="secondary" class="widget-area  col-md-3" role="complementary">
+            <section class="widget widget-categories">
+                <h2 class="widget-title">Categories</h2>
+                <ul>
+                    {% for i in category %}
+	            <li class="cat-item cat-item-7"><a href="{% url 'languages' pk=i.id %}">{{ i.name }}</a></li>
+                    {% endfor %}
+		</ul>
+                <ul>
+                    {% for i in Algocategory %}
+	            <li class="cat-item cat-item-7"><a href="{% url 'languages' pk=i.id %}">{{ i.name }}</a></li>
+                    {% endfor %}
+		</ul>
+            </section>
+            <section class="widget widget-categories">
+                    <h2 class="widget-title">Recent Posts</h2>
+                    <ul>
+                        {% for j in Post %}
+        <li class="cat-item cat-item-7"><a href="{%  url  'post_detail' pk=j.id %}">{{ j.title }}</a></li>
+                        {% endfor %}
+
+            </ul><ul>
+                        {% for j in AlgoPost %}
+        <li class="cat-item cat-item-7"><a href="{%  url  'post_detail' pk=j.id %}">{{ j.title }}</a></li>
+                        {% endfor %}
+
+            </ul>
+                </section>
+        </aside>
+
+    </div>
+{% endblock %}
+<footer class="page-footer font-small bg-dark">
+
+
+        <div class="container text-center">
+
+
+          <div class="row">
+
+
+            <div class="col-md-12 py-5">
+              <div class="mb-5 flex-center">
+
+
+                <a class="fb-ic" href="http://www.facebook.com/caliph.bin.kabir">
+                  <i class="fab fa-facebook-f fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+                </a>
+
+                <a class="tw-ic "href="#">
+                  <i class="fab fa-twitter fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+                </a>
+
+                <a class="gplus-ic"href="#">
+                  <i class="fab fa-google-plus-g fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+                </a>
+
+                <a class="li-ic"href="#">
+                  <i class="fab fa-linkedin-in fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+                </a>
+
+                <a class="ins-ic"href="http://instagram.com/insta_munta">
+                  <i class="fab fa-instagram fa-lg white-text mr-md-5 mr-3 fa-2x"> </i>
+                </a>
+                <a class="pin-ic"href="http://github.com/muntakim1">
+                  <i class="fab fa-github fa-lg white-text fa-2x"> </i>
+                </a>
+              </div>
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+
+
+        <div class="footer-copyright text-center py-3 text-muted">© 2019 Copyright:
+          <a href="https://mdbootstrap.com/education/bootstrap/"> Muntakim@Rahaman</a>
+        </div>
+
+
+      </footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{% extends 'index.html' %}
+
+{% block title %}
+   {{ all_post.category }}
+{% endblock %}
+
+{% block body %}
+        <section id="primary" class="content-area col-md-9">
+
+           <main id="main" class="site-main" role="main">
+
+               <article>
+                <header class="entry-header text-center">
+                    <h3 class="widget-title">{{ all_post.title }}</h3>
+                    {% if user.is_authenticated %}
+                    <p> {{ all_post.dateTime }}| posted by {{ user.get_username }}</p>
+                        {% else %}
+                        <p> {{ all_post.dateTime }}| posted by Muntakimur Rahaman</p>
+                    {% endif %}
+
+                    <hr>
+                </header>
+
+                <div class="post-image container">
+                    <img class="center" src="{{ all_post.image.url }}" alt="image">
+                </div>
+                <div class="container">
+                        <p>{{ all_post.description }}
+                                    </p>
+                </div>
+               </article>
+
+           </main>
+        </section>
+    {% endblock %}

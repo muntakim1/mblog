@@ -1,0 +1,36 @@
+{% extends 'index.html' %}
+
+{% block title %}
+   Languages
+{% endblock %}
+
+{% block body %}
+    {% for foo in post %}
+     <section id="primary" class="content-area col-md-9">
+
+           <main id="main" class="site-main" role="main">
+
+               <article>
+                <header class="entry-header text-center">
+                    <h3 class="widget-title">{{ foo.title }}</h3>
+                    {% if user.is_authenticated %}
+                    <p> {{ foo.dateTime }}| posted by {{ user.get_username }}</p>
+                        {% else %}
+                        <p> {{ foo.dateTime }}| posted by Muntakimur Rahaman</p>
+                    {% endif %}
+                    <hr>
+                </header>
+
+                <div class="post-image container">
+                    <img class="center" src="{{ foo.image.url }}" alt="image">
+                </div>
+                <div class="container">
+                        <p>{{ foo.description }}
+                                    </p>
+                </div>
+               </article>
+
+           </main>
+        </section>
+    {% endfor %}
+{% endblock %}
