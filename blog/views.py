@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Post, Category, AlgorithmPost, AlgorithmCategory
+from .models import Post, Category, AlgorithmPost, AlgorithmCategory,ContactEmail
 from .forms import ContactForm
 from django.core.mail import send_mail
 
@@ -63,14 +63,15 @@ def dataAL(request, pk):
 
 
 def ContactUs(request):
+    mail=ContactEmail()
     if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
-            subject = form.cleaned_data['subject']
-            message = form.cleaned_data['message']
-            sender = form.cleaned_data['sender']
-            recipients = ['muntakim1104001@gmail.com']
-            send_mail(subject, message, sender, recipients,fail_silently=False)
+           mail.email=form.cleaned_data['sender']
+           mail.message=form.cleaned_data['message']
+           mail.name=form.cleaned_data['name']
+           mail.subject=form.cleaned_data['subject']
+           mail.save() 
     else:
         form = ContactForm()
     context = {

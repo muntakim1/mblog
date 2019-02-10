@@ -1,5 +1,17 @@
 from django.contrib import admin
-from .models import Category, Post, AlgorithmCategory, AlgorithmPost
+from .models import Category, Post, AlgorithmCategory, AlgorithmPost,ContactEmail
+
+
+
+
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email','subject','message')
+    search_fields=('name','email','subject','message')
+    readonly_fields=('name','email','subject','message')
+    list_filter=('email','name')
+
+
+admin.site.register(ContactEmail, ContactAdmin)
 
 
 class CustomCategory(admin.ModelAdmin):

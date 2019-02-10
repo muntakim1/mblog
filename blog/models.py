@@ -2,6 +2,13 @@ from django.db import models
 from django.utils import timezone
 
 
+
+class ContactEmail(models.Model):
+    name = models.CharField(max_length=200)
+    subject=models.CharField(max_length=400)
+    message=models.TextField()
+    email=models.EmailField(max_length=254)
+    
 class AlgorithmCategory(models.Model):
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, unique=True)
